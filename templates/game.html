@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neon Radium Tic Tac Toe — Play</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-neon">
+  <main class="page center">
+    <h1 class="neon-title">Neon Radium Tic Tac Toe</h1>
+
+    <p class="chip">
+      Mode: <strong>{{ mode }}</strong>
+      {% if ai_level %} • AI: <strong>{{ ai_level }}</strong>{% endif %}
+    </p>
+
+    <p class="chip">
+      Turn: <span id="turn-indicator" class="turn"></span>
+    </p>
+    <div id="board" class="board">
+  <!-- 9 cells already here -->
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+      <button class="cell"></button>
+    <div id="strike"></div>
+    </div>
+
+    <div class="row gap center" style="margin-top: 30px;">
+      <button class="neon-btn" id="restart">Restart</button>
+      <a class="neon-link" href="{{ url_for('setup', mode=mode) }}">← Back to Setup</a>
+    </div>
+
+    <div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <button id="popup-close" class="popup-close">&times;</button>
+    <p id="popup-message"></p>
+  </div>
+</div>
+
+  </main>
+
+  <script>
+    // Injected config
+    const MODE     = "{{ mode }}";          // PvP or PvC
+    const LEVEL    = "{{ ai_level }}";      // easy/normal/hard or ""
+    const P1SYMBOL = "{{ p1 }}";
+    const P2SYMBOL = "{{ p2 }}";
+  </script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

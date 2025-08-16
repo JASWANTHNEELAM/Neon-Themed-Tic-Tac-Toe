@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neon Radium Tic Tac Toe — Setup</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-neon">
+  <main class="page center">
+    <h1 class="neon-title">Game Setup</h1>
+
+    <section class="card neon-panel">
+      <p class="chip">Mode: <strong>{{ mode }}</strong></p>
+
+      {% if mode == "PvC" %}
+      <div class="group">
+        <label class="label">AI Difficulty</label>
+        <div class="row gap">
+          <button class="toggle neon-btn" data-value="easy">Easy</button>
+          <button class="toggle neon-btn" data-value="normal">Normal</button>
+          <button class="toggle neon-btn" data-value="hard">Hard</button>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="group">
+        <label class="label">Player 1 Symbol</label>
+        <div class="symbol-grid" id="p1-grid">
+          {% for s in symbols %}
+          <button class="symbol neon-chip" data-s="{{ s }}">{{ s }}</button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="label">{{ 'CPU' if mode=='PvC' else 'Player 2' }} Symbol</label>
+        <div class="symbol-grid" id="p2-grid">
+          {% for s in symbols %}
+          <button class="symbol neon-chip" data-s="{{ s }}">{{ s }}</button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="row gap center">
+        <a class="neon-link" href="{{ url_for('index') }}">← Back</a>
+        <button id="start-btn" class="neon-btn">Start Game</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const mode = "{{ mode }}";
+    let aiLevel = "easy"; // default
+    const toggles = document.querySelectorAll(".toggle");
+    toggles.forEach(btn => btn.addEventListener("click", () => {
+      toggles.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      aiLevel = btn.dataset.value;
+    }));
+    if (toggles.length) toggles[0].classList.add("active");
+
+    const p1Grid = document.getElementById("p1-grid");
+    const p2Grid = document.getElementById("p2-grid");
+    let p1 = "X";
+    let p2 = "O";
+
+    function updateActive(grid, symbol) {
+      [...grid.querySelectorAll(".symbol")].forEach(b => {
+        b.classList.toggle("active", b.dataset.s === symbol);
+        b.disabled = false;
+        // prevent same symbol on the other grid
+        if ((grid === p1Grid && b.dataset.s === p2) ||
+            (grid === p2Grid && b.dataset.s === p1)) {
+          b.disabled = true;
+        }
+      });
+    }
+
+    p1Grid.addEventListener("click", (e) => {
+      if (!e.target.closest(".symbol")) return;
+      p1 = e.target.dataset.s;
+      if (p1 === p2) { // adjust p2 automatically
+        const first = [...p2Grid.querySelectorAll(".symbol")].find(b => b.dataset.s !== p1);
+        p2 = first.dataset.s;
+      }
+      updateActive(p1Grid, p1);
+      updateActive(p2Grid, p2);
+    });
+
+    p2Grid.addEventListener("click", (e) => {
+      if (!e.target.closest(".symbol")) return;
+      p2 = e.target.dataset.s;
+      if (p1 === p2) {
+        const first = [...p1Grid.querySelectorAll(".symbol")].find(b => b.dataset.s !== p2);
+        p1 = first.dataset.s;
+      }
+      updateActive(p1Grid, p1);
+      updateActive(p2Grid, p2);
+    });
+
+    // initialize defaults
+    updateActive(p1Grid, p1);
+    updateActive(p2Grid, p2);
+
+    document.getElementById("start-btn").addEventListener("click", () => {
+      const params = new URLSearchParams({
+        mode,
+        p1,
+        p2,
+        ...(mode === "PvC" ? { ai_level: aiLevel } : {})
+      });
+      window.location.href = "/game?" + params.toString();
+    });
+  </script>
+</body>
+</html>

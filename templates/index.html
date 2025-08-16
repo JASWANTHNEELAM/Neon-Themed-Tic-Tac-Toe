@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neon Radium Tic Tac Toe — Mode</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-neon">
+  <main class="page center">
+    <h1 class="neon-title">Neon Radium Tic Tac Toe</h1>
+
+    <section class="card neon-panel">
+      <h2 class="neon-subtitle">Choose a Mode</h2>
+    <div class="group">
+      <div class="row center gap">
+  <a class="neon-btn" href="{{ url_for('setup', mode='PvP') }}">Player vs Player</a>
+  <a class="neon-btn" href="{{ url_for('setup', mode='PvC') }}">Player vs Computer</a>
+</div></div>
+
+    </section>
+  </main>
+</body>
+</html>
