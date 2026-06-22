@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Neon Radium Tic Tac Toe — Mode</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00f5ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body class="bg-neon">
+  <main class="page center">
+    <h1 class="neon-title">Neon Radium Tic Tac Toe</h1>
+    <section class="card neon-panel">
+      <h2 class="neon-subtitle">Choose a Mode</h2>
+      <div class="group">
+        <div class="row center gap">
+          <!-- Pass the mode via URL parameters -->
+          <a class="neon-btn" href="setup.html?mode=PvP">Player vs Player</a>
+          <a class="neon-btn" href="setup.html?mode=PvC">Player vs Computer</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('Service Worker Registered!'))
+        .catch(err => console.log('Service Worker Failed: ', err));
+    });
+  }
+</script>
+</body>
+</html>
