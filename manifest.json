@@ -2,7 +2,7 @@
   "name": "Neon Radium Tic Tac Toe",
   "short_name": "Neon TTT",
   "description": "Play PvP or vs Computer Tic Tac Toe with glowing neon graphics.",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#031628",
   "theme_color": "#00f5ff",
